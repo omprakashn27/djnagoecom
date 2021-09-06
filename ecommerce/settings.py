@@ -134,6 +134,8 @@ MEDIA_URL = '/images/'
 
 MEDIA_ROOT = BASE_DIR / 'static'
 
+STATIC_ROOT = BASE_DIR / 'assets'
+
 STATICFILES_DIRS =[
-    BASE_DIR / '/static/'
+    BASE_DIR / 'static/'
 ]
