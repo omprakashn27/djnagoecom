@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'd+ocjg(36%xfuc!waevj-nw!cp76l0gu5vwg=cgv0b$)rhqd03'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['sdjangoecom.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -135,5 +135,5 @@ MEDIA_URL = '/images/'
 MEDIA_ROOT = BASE_DIR / 'static'
 
 STATICFILES_DIRS =[
-    BASE_DIR / 'static/'
+    BASE_DIR / '/static/'
 ]
