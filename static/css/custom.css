@@ -1,0 +1,64 @@
+*{
+    font-family: 'Roboto', sans-serif;
+}
+
+a{
+    text-decoration: none !important;
+    color: #000 !important;
+}
+
+.bg-f2f2f2{
+    background-color: #fcf6f6;
+}
+
+.product-tag{
+    background-color: #9933cc;
+    color: #fff;
+    font-size: 11px;
+    right: 10px;
+    line-height: 1;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: 10px;
+    padding: 7px 10px;
+    font-weight: 600;
+    min-width: 45px;
+}
+
+.product-viewtag{
+    background-color: red;
+    color: #fff;
+    font-size: 11px;
+    line-height: 1;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: 22px;
+    margin-left: 17.5rem;
+    padding: 7px 10px;
+    font-weight: 600;
+    min-width: 45px;
+}
+
+.checkout-form label{
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.checkout-form input{
+    font-size: 14px;
+    padding: 5px;
+    font-weight: 400;
+}
+
+.order-details label{
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.order-details div{
+    font-size: 14px;
+    padding: 5px  !important;
+    margin-bottom: 6px;
+}

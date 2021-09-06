@@ -1,0 +1,29 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+             <div class="col-md-12">
+                <h2>Collections</h2>
+                <hr>
+            </div>
+            {% for cate in categories %}
+                <div class="col-md-3">
+                    <div class="card shadow">
+                        <a href="{% url 'collectionsview' cate.slug %}">
+                            <div class="card-body">
+                                <img src="{{ cate.category_image.url }}" class="w-100">
+                                <h4>{{ cate.name }}</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+        
+{% endblock content %}

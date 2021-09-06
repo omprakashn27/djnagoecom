@@ -1,0 +1,44 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block title %}
+    {{ category_name }}
+{% endblock title %}
+
+{% block content %}
+
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+             <div class="col-md-12">
+                <h2>{{ category_name }}</h2>
+                <hr>
+            </div>
+            {% for prod in products %}
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <a href="{% url 'productview' prod.category.slug prod.slug %}">
+                            {% if prod.tag %}
+                                <label class="product-tag">{{ prod.tag }} </label>
+                            {% endif %}
+                             {% if prod.product_image %}
+                                <img src="{{ prod.product_image.url }}" class="w-100">
+                            {% else %}
+                                <img src="" class="w-100" alt="Image here">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="text-center">{{ prod.name }}</h5>
+                                <span class="float-start">{{ prod.selling_price | stringformat:'d' }}</span>
+                                <span class="float-end"> <s> {{ prod.original_price | stringformat:'d' }}</s></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+               
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+        
+{% endblock content %}

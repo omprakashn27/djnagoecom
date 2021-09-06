@@ -1,0 +1,232 @@
+{% extends 'store/main.html' %}
+
+{% block title %}
+    Checkout
+{% endblock title %}
+
+{% block content %}
+    <div class="py-3 mb-4 shadow-sm bg-warning border-top">
+        <div class="container">
+            <h6 class="mb-0">
+                <a href="{% url '/' %}">
+                    Home
+                </a> /
+                <a href="{% url 'checkout' %}">
+                    Checkout
+                </a>
+            </h6>
+        </div>
+    </div>
+
+    <div class="container mt-3">
+
+        <form action="{% url 'placeorder' %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>Basic Details</h6>
+                            <hr>
+                            <div class="row checkout-form">
+                                <div class="col-md-6">
+                                    <label for="">First Name</label>
+                                    <input type="text" required class="form-control" value="{{ request.user.first_name }}" name="fname" placeholder="Enter First Name">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="">Last Name</label>
+                                    <input type="text" required class="form-control" value="{{ request.user.last_name }}" name="lname" placeholder="Enter Last Name">
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="">Email</label>
+                                    <input type="text" required class="form-control" value="{{ request.user.email }}" name="email" placeholder="Enter Email">
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="">Phone Number</label>
+                                    <input type="text" required class="form-control" value="{{ userprofile.phone }}" name="phone" placeholder="Enter Phone Number">
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="">Address 1</label>
+                                    <input type="text" required class="form-control" value="{{ userprofile.address1 }}" name="address1" placeholder="Enter Address 1">
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="">Address 2</label>
+                                    <input type="text" required class="form-control" value="{{ userprofile.address2 }}" name="address2" placeholder="Enter Address 2">
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="">City</label>
+                                    <input type="text" required class="form-control" value="{{ userprofile.city }}" name="city" placeholder="Enter City">
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="">State</label>
+                                    <input type="text" required class="form-control" value="{{ userprofile.state }}" name="state" placeholder="Enter State">
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="">Country</label>
+                                    <input type="text" required class="form-control" value="{{ userprofile.country }}" name="country" placeholder="Enter Country">
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="">Pin Code</label>
+                                    <input type="text" required class="form-control" value="{{ userprofile.pincode }}" name="pincode" placeholder="Enter Pin Code">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>Order Details</h6>
+                            <hr>
+                            {% if cartitems %}
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Qty</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in cartitems %}
+                                        <tr>
+                                            <td>{{ item.product.name }}</td>
+                                            <td>{{ item.product_qty }}</td>
+                                            <td>{{ item.product.selling_price }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <h6 class="px-2">Grand Total  <span class="float-end">Rs {{ total_price |floatformat:2  }} </span></h6>
+                                <hr>
+                                <input type="hidden" name="payment_mode" value="Cash On Delivery">
+                                <button type="submit" class="btn btn-primary w-100">Place Order | COD</button>
+                                <button type="button" class="btn btn-success razorpay_btn mt-3 w-100">Pay with Razorpay </button>
+
+                                <div id="paypal-button" class="mt-3 text-center"></div>
+
+                                 {% comment %} <div id="paypal-button-container"></div> {% endcomment %}
+                            {% else %}
+                                <h4 class="text-center">No products in cart</h4>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+<script>
+
+$(document).ready(function () {
+
+  
+    
+  
+    paypal.Button.render({
+        // Configure environment
+        env: 'sandbox',
+        client: {
+        sandbox: 'AZs2Jlax_z6GXz7Xo8iCfBF2PwwbatjT0fG0M--HtqzLpL8UZfLx_zbIB8SupDvz_kH98zh5OwL6QV94',
+        //production: 'demo_production_client_id'
+        },
+        // Customize button (optional)
+        locale: 'en_US',
+        style: {
+        size: 'large',
+        color: 'gold',
+        shape: 'rect',
+        },
+
+        // Enable Pay Now checkout flow (optional)
+        commit: true,
+
+        // Set up a payment
+        payment: function(data, actions) {
+        return actions.payment.create({
+            transactions: [{
+            amount: {
+                total: parseFloat({{total_price}}).toFixed(2),
+                currency: 'USD',
+            },
+            description: 'Shopping with Sharmas.',
+            //custom: '90048630024435',
+            //invoice_number: '12345', Insert a unique invoice number
+            soft_descriptor: 'ECHI5786786',
+            item_list: {
+                items: [
+                {% for item in cartitems %}
+                {
+                    name: '{{ item.product.name }}',
+                    quantity: '{{ item.product_qty }}',
+                    price: '{{ item.product.selling_price }}',
+                    currency: 'USD'
+                },
+                {% endfor %}
+                ],
+            }
+            }],
+            note_to_payer: 'Contact us at sharma@subscribe.com any questions on your order.'
+        });
+        },
+        // Execute the payment
+        onAuthorize: function(data, actions) {
+        return actions.payment.execute().then(function(paypal_response) {
+            // Show a confirmation message to the buyer
+            //window.alert('Thank you for your purchase!');
+            var fname =  $("[name='fname']").val();   
+            var lname =  $("[name='lname']").val();   
+            var email =  $("[name='email']").val();   
+            var phone =  $("[name='phone']").val();   
+            var address1 =  $("[name='address1']").val();    
+            var address2 =  $("[name='address2']").val();    
+            var city =  $("[name='city']").val();    
+            var state =  $("[name='state']").val();   
+            var country =  $("[name='country']").val(); 
+            var pincode =  $("[name='pincode']").val(); 
+            var payment_mode =  "PayPal";
+            var token = $('.container').find('input[name=csrfmiddlewaretoken]').val()
+            
+            data = {
+                'fname':fname,
+                'lname':lname,
+                'email':email,
+                'phone':phone,
+                'address1':address1,
+                'address2':address2,
+                'city':city,
+                'state':state,
+                'country':country,
+                'pincode':pincode,
+                'payment_mode':payment_mode,
+                'payment_id': paypal_response.id,
+                csrfmiddlewaretoken: token
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/place-order",
+                data: data,
+                success: function (response) {
+                    //alert(response.status)
+                    window.location.href = "/orders";
+                }
+            });
+            console.log('Thank you for your purchase!');
+        });
+        }
+    }, '#paypal-button');
+
+});
+
+
+</script>
+
+{% endblock scripts %}

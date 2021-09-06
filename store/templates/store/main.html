@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>
+            {% block title %}
+            
+            {% endblock title %}
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <link rel="stylesheet" href="{% static '/css/bootstrap5.css' %}">
+        <link rel="stylesheet" href="{% static '/css/custom.css' %}">
+
+        <!-- Owl Carousel -->
+        <link rel="stylesheet" href="{% static '/css/owl.carousel.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/owl.theme.default.min.css' %}">
+
+        <!-- Google Font -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+        <!-- Font Awesome -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <!-- Alertify -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+
+    </head>
+    <body>
+        {% include 'store/includes/navbar.html' %}
+        {% block content %}
+        
+        {% endblock content %}
+
+        <script src="{% static '/js/jquery-3.6.0.min.js' %}" ></script>
+        <script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static '/js/owl.carousel.min.js' %}"></script>
+        <script src="{% static '/js/custom.js' %}"></script>
+
+        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+         <script>
+            alertify.set('notifier','position', 'top-right');
+            {% for x in messages %}
+                alertify.success("{{ x }}");
+            {% endfor %}
+        </script>
+        {% block scripts %}
+        
+        {% endblock scripts %}
+        
+        <script src="{% static '/js/checkout.js' %}"></script>
+
+    </body>
+</html>
