@@ -27,7 +27,11 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['sdjangoecom.herokuapp.com', 'localhost']
 
-
+CSRF_COOKIE_SECURE=True
+SECURE_SSL_REDIRECT=True
+SESSION_COOKIE_SECURE=True
+SECURE_HSTS_SECONDS = 36000
+SECURE_HSTS_PRELOAD=True
 # Application definition
 
 INSTALLED_APPS = [
